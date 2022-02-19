@@ -9,6 +9,9 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name','slug', 'description'];
+
     //relacion uno a mucho inversa
 
     public function user(){

@@ -85,8 +85,8 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => true,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -259,6 +259,11 @@ return [
             'text' => 'Categories',
             'route'  => 'admin.categories.index',
             'icon' => 'fab fa-fw fa-buffer',
+        ],
+        [
+            'text' => 'Products',
+            'route' => 'admin.products.index',
+            'icon' => 'fa-brands fa-fw fa-product-hunt',
         ],
         [
             'text' => 'change_password',

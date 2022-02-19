@@ -1,6 +1,6 @@
 <nav class="bg-white-800 border-b-2" x-data="{open : false}">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-      <div class="relative flex items-center justify-between h-16">
+      <div class="relative flex items-center justify-between h-20">
 
         <!-- Mobile menu button-->
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden"> 
@@ -33,8 +33,8 @@
         <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             {{-- Logotype --}}
           <a href="/" class="flex-shrink-0 flex items-center">
-            <img class="block lg:hidden h-8 w-auto" src="https://svgsilh.com/svg/2543668.svg" alt="Workflow">
-            <img class="hidden lg:block h-8 w-auto" src="https://svgsilh.com/svg/2543668.svg" alt="Workflow">
+            <img class="block lg:hidden h-12 w-auto" src="https://svgsilh.com/svg/2543668.svg" alt="Workflow">
+            <img class="hidden lg:block h-12 w-auto" src="https://svgsilh.com/svg/2543668.svg" alt="Workflow">
           </a>
 
           {{-- Menu LG --}}
@@ -72,7 +72,7 @@
             <div>
               <button x-on:click="open = true" type="button" class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                 <span class="sr-only"></span>
-                <img class="h-8 w-8 rounded-full" src="{{auth()->user()->profile_photo_url}}" alt="">
+                <img class="h-10 w-10 rounded-full" src="{{auth()->user()->profile_photo_url}}" alt="">
               </button>
             </div>
   
