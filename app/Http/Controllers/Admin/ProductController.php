@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 Use App\Models\Product;
+use App\Models\User;
 
 
 
@@ -17,8 +18,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        
+    {
+
         $categories = Category::all();
         $products = Product::all();
         return view('admin.products.index', compact('products', 'categories'));
@@ -44,17 +45,31 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $userID = request()->user()->id ;
+        
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:products',
             'description' => 'required',
-            
+            'category_id' => 'required',
+        
         ]);
+
         
 
-        $product = Product::create($request->all());
+        //$product = Product::create($request->all());
 
-        return redirect()->route('admin.products.edit', compact('product'));
+        $product = new Product();
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->description =$request->description;
+        $product->user_id = $userID;
+        $product->category_id = $request->category_id;
+
+        $product->save();
+
+
+        return redirect()->route('admin.products.edit', compact('product'))->with('info', 'the product was created successfully');
     }
 
     /**
@@ -75,8 +90,9 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit (Product $product)
-    {
-        return view('admin.products.edit', compact('product'));
+    {   
+        $categories = Category::all();
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -88,7 +104,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'slug' => "required|unique:products,slug,$product->id",
+            'description' => 'required',
+            'category_id' => 'required',
+        ]);
+
+        $product->update($request->all());
+
+        return redirect()->route('admin.products.edit', $product)->with('info', 'the product was updated successfully');
     }
 
     /**
@@ -99,6 +124,8 @@ class ProductController extends Controller
      */
     public function destroy (Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('admin.products.index')->with('info', 'the product was deleted successfully');
     }
 }

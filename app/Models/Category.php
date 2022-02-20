@@ -16,7 +16,7 @@ class Category extends Model
         return "slug";
     }
 
-    public function posts(){
+    public function products(){
         return $this->hasMany(Product::class);
     }
 }

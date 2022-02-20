@@ -7,47 +7,29 @@
 @stop
 
 @section('content')
+@if (session('info'))
+    <div class="alert alert-success">
+        <strong>{{session('info')}}</strong>
+    </div>
+@endif
+
+
     <div class="card">
         <div class="card-body">
             {!! Form::open(['route'=>'admin.products.store']) !!}
-            <div class="form-group">
-                {!! Form::label('name', 'Name') !!}
-                {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Insert name of the product']) !!}
-                @error('name')
-                    <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
-            <div class="form-group">
-                {!! Form::label('slug', 'Slug') !!}
-                {!! Form::text('slug', null, ['class' => 'form-control', 'placeholder' => 'Insert slug of the product', 'readonly']) !!}
-                @error('slug')
-                    <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div>
-            
-            <div class="form-group">
-                {!! Form::label('description', 'Description') !!}
-                {!! Form::text('description', null, ['class'=> 'form-control', 'placeholder' => 'Insert the description of the product']) !!}
-            </div>
+                @include('admin.products.partials.form')
 
-            {{-- selection category of the product --}}
-            {{-- <div class="form-group">
-                {!! Form::label('category', 'Category',) !!}
-                {!! Form::select('category_id', $categories->pluck('name'), null, ['class' => 'form-control']) !!}
-                @error('category')
-                    <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div> --}}
-            {{-- selection active of the product --}}
-            {{-- <div class="form-group">
-                {!! Form::label('active', 'Active',) !!}
-                {!! Form::select('active', $products->pluck('active'), null, ['class' => 'form-control']) !!}
-                @error('category')
-                    <span class="text-danger">{{$message}}</span>
-                @enderror
-            </div> --}}
+                
+                {{-- selection active of the product --}}
+                {{-- <div class="form-group">
+                    {!! Form::label('active', 'Active',) !!}
+                    {!! Form::select('active', $products->pluck('active'), null, ['class' => 'form-control']) !!}
+                    @error('category')
+                        <span class="text-danger">{{$message}}</span>
+                    @enderror
+                </div> --}}
 
-            {!! Form::submit('Create product', ['class'=> 'btn btn-primary']) !!}
+            {!! Form::submit('Create product', ['class' => 'btn btn-primary']) !!}
             {!! Form::close() !!}
         </div>
     </div>
