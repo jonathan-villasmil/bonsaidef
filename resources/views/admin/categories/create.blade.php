@@ -45,7 +45,8 @@
 @section('js')
     
     <script src="{{asset('vendor/jQuery-Plugin-stringToSlug-1.3/jquery.stringToSlug.min.js')}}"></script>
-
+    <script src="https://cdn.ckeditor.com/ckeditor5/32.0.0/classic/ckeditor.js"></script>
+    
     <script>
         $(document).ready( function() {
             $("#name").stringToSlug({
@@ -54,6 +55,12 @@
                 space: '-'
             });
         });
+
+        ClassicEditor
+        .create( document.querySelector( '#description' ) )
+        .catch( error => {
+            console.error( error );
+        } );
     </script>
 
 @endsection

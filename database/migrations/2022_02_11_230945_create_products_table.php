@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->enum('active', [1, 2])->default(1);
 
             $table->unsignedBigInteger('user_id');

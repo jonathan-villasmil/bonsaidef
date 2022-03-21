@@ -10,7 +10,11 @@
             {{-- Contenido principal --}}
             <div class="lg:col-span-2">
                 <figure>
-                    <img class="w-full h-80 object-cover object-cover" src="{{Storage::url($product->image->url)}}" alt="">
+                  @if ($product->image)
+                      <img class="w-full h-80 object-cover object-cover" src="{{Storage::url($product->image->url)}}" alt="">
+                  @else
+                  <img class="w-full h-80 object-cover object-center" src="https://cdn.pixabay.com/photo/2021/11/28/16/27/nature-6830717_960_720.jpg" alt="">
+                  @endif
                 </figure>
             </div>
             {{-- Productos relacionados --}}
@@ -21,7 +25,12 @@
                     @foreach ($similars as $similar)
                         <li class="mb-4">
                             <a class="flex" href="{{route('products.show', $similar)}}">
-                                <img class="w-36 h-20 object-cover object-center" src="{{Storage::url($similar->image->url)}}" alt="">
+                              @if ($similar->image)
+                                  <img class="w-36 h-20 object-cover object-center" src="{{Storage::url($similar->image->url)}}" alt="">
+                              @else
+                              <img class="w-36 h-20 object-cover object-center" src="https://cdn.pixabay.com/photo/2021/11/28/16/27/nature-6830717_960_720.jpg" alt="">
+                              @endif
+                                
                                 <span class="ml-2 text-gray-600">{{$similar->name}}</span>
                             </a>
                         </li>

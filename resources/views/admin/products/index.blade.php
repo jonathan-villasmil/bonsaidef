@@ -4,11 +4,12 @@
 
 @section('content_header')
     
-    {{-- <a class="btn btn-secondary btn-sm float-right" href="{{route('admin.products.create')}}">Create Product</a> --}}
+    <a class="btn btn-secondary btn-sm float-right" href="{{route('admin.products.create')}}">Create Product</a>
     <h1>Products list</h1>
 @stop
 
 @section('content')
+
 @livewire('admin.products-index')
 {{-- @if (session('info'))
     <div class="alert alert-success">

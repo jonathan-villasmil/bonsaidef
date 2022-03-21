@@ -7,7 +7,7 @@
 
         @foreach ($products as $product)
             <div class="mb-8 bg-white shadow-lg rounded-lg overflow-hidden">
-                <img class="w-full h-72 object-cover object-center" src="{{Storage::url($product->image->url)}}" alt="">
+                <img class="w-full h-72 object-cover object-center" src="@if($product->image){{Storage::url($product->image->url)}} @else https://cdn.pixabay.com/photo/2021/11/28/16/27/nature-6830717_960_720.jpg @endif()" alt="">
 
                 <div class="px-6 py-4">
                     <h1 class="font-bold text-xl mb-2">

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 Use App\Models\Product;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Storage;
 
 
 class ProductController extends Controller
@@ -32,9 +33,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
-        $categories = Category::all();
-        return view('admin.products.create', compact('categories', 'products'));
+        $categories = Category::pluck('name', 'id');
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -43,32 +43,19 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $userID = request()->user()->id ;
-        
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required|unique:products',
-            'description' => 'required',
-            'category_id' => 'required',
-        
-        ]);
+        //return Storage::put('products', $request->file('file'));
+        $product = Product::create($request->all());
 
-        
+        if($request->file('file')){
+           $url = Storage::put('products', $request->file('file'));
 
-        //$product = Product::create($request->all());
-
-        $product = new Product();
-        $product->name = $request->name;
-        $product->slug = $request->slug;
-        $product->description =$request->description;
-        $product->user_id = $userID;
-        $product->category_id = $request->category_id;
-
-        $product->save();
-
-
+           $product->image()->create([
+               'url' => $url,
+           ]);
+        }
+       
         return redirect()->route('admin.products.edit', compact('product'))->with('info', 'the product was created successfully');
     }
 
@@ -91,8 +78,9 @@ class ProductController extends Controller
      */
     public function edit (Product $product)
     {   
-        $categories = Category::all();
-        return view('admin.products.edit', compact('product', 'categories'));
+        $categories = Category::pluck('name', 'id');
+
+        return view('admin.products.edit', compact('product','categories'));
     }
 
     /**
@@ -102,16 +90,26 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $request->validate([
-            'name' => 'required',
-            'slug' => "required|unique:products,slug,$product->id",
-            'description' => 'required',
-            'category_id' => 'required',
-        ]);
-
+        
         $product->update($request->all());
+
+        if($request->file('file')){
+            $url = Storage::put('products', $request->file('file'));
+            
+            if($product->image){
+                Storage::delete($product->image->url);
+
+                $product->image->update([
+                    'url' => $url
+                ]);
+            }else{
+                $product->image()->create([
+                    'url' => $url,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.products.edit', $product)->with('info', 'the product was updated successfully');
     }

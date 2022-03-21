@@ -27,8 +27,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('admin.categories.create');
+    {   
+        $categories = Category::pluck('name', 'id');
+        return view('admin.categories.create', compact('categories'));
     }
 
     /**
@@ -43,9 +44,9 @@ class CategoryController extends Controller
             'name' => 'required',
             'slug' => 'required|unique:categories',
         ]);
-        $category =Category::create($request->all());
+        $categories = Category::create($request->all());
 
-        return redirect()->route('admin.categories.edit', $category)->with('info', 'Category created successfully');
+        return redirect()->route('admin.categories.edit', $categories)->with('info', 'Category created successfully');
     }
 
     /**
